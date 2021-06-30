@@ -1,0 +1,62 @@
+function scrollTypewrite() {
+    const observer = new IntersectionObserver(function(elements) {
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].isIntersecting) {
+                element = elements[i].target
+
+                element.className = element.className + " typewrite"
+            }
+        }
+    })
+
+    tagnames = ["h1", "h2", "h3"]
+    for (let ti = 0; ti < tagnames.length; ti++) {
+        tags = document.getElementsByTagName(tagnames[ti])
+        for (let i = 0; i < tags.length; i++) {
+            observer.observe(tags[i])
+        }
+    }
+}
+
+function scrollFade() {
+    const observer = new IntersectionObserver(function(elements) {
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].isIntersecting) {
+                element = elements[i].target
+                element.className = element.className + " fade"
+            }
+        }
+    })
+
+    tagnames = ["p", "li", "tr", "input", "label", "fieldset"]
+    for (let ti = 0; ti < tagnames.length; ti++) {
+        tags = document.getElementsByTagName(tagnames[ti])
+        for (let i = 0; i < tags.length; i++) {
+            observer.observe(tags[i])
+        }
+    }
+}
+
+function scrollDivider() {
+    const observer = new IntersectionObserver(function(elements) {
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].isIntersecting) {
+                element = elements[i].target
+                element.className = "divider-loaded"
+            }
+        }
+    })
+
+    elements = document.getElementsByClassName("divider")
+
+    for (let i = 0; i < elements.length; i++) {
+        observer.observe(elements[i])
+    }
+}
+
+window.onload = function() {
+    scrollTypewrite()
+    scrollDivider()
+
+    baseOnLoad()
+}

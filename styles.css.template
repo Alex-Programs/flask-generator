@@ -1,0 +1,248 @@
+@font-face {
+    font-family: JetBrainsMonoR;
+    src: url(assets/JetBrainsMono-Regular.woff2);
+  }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #2d2a2e;
+    color: #939293;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: $$ACCENT_COLOR$$;
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+    border-bottom: 0px;
+    text-decoration: none;
+    outline: 0;
+    color: $$ACCENT_COLOR$$;
+}
+
+.middleHover {
+    position: relative;
+}
+
+.middleHover:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: $$ACCENT_COLOR$$;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.2s ease-in-out;
+}
+
+.middleHover:hover:before {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+.logo {
+    width: 256px;
+    height: 256px;
+    -webkit-filter: drop-shadow(0px 0px 5px $$ACCENT_COLOR$$);
+    filter: drop-shadow(0px 0px 5px $$ACCENT_COLOR$$);
+    transition: all 0.2s;
+}
+
+.logo:hover {
+    -webkit-filter: drop-shadow(0px 0px 10px $$ACCENT_COLOR$$);
+    filter: drop-shadow(0px 0px 10px $$ACCENT_COLOR$$);
+    transition: all 0.2s;
+}
+
+.imcentre {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tcentre {
+    text-align: center;
+}
+
+
+/*** Works on common browsers ***/
+
+ ::selection {
+    background-color: $$ACCENT_COLOR$$;
+    color: #2d2a2e;
+}
+
+
+/*** Mozilla based browsers ***/
+
+ ::-moz-selection {
+    background-color: $$ACCENT_COLOR$$;
+    color: #2d2a2e;
+}
+
+
+/***For Other Browsers ***/
+
+ ::-o-selection {
+    background-color: $$ACCENT_COLOR$$;
+    color: #2d2a2e;
+}
+
+ ::-ms-selection {
+    background-color: $$ACCENT_COLOR$$;
+    color: #2d2a2e;
+}
+
+
+/*** For Webkit ***/
+
+ ::-webkit-selection {
+    background-color: $$ACCENT_COLOR$$;
+    color: #2d2a2e;
+}
+
+.btn-yell {
+    border: None;
+    color: $$ACCENT_COLOR$$;
+    font-size: 1em;
+    padding: 15px;
+    letter-spacing: 1px;
+    background: linear-gradient(0deg, $$ACCENT_COLOR$$ 0%, #4579b1 5%, rgba(0, 0, 12, 1) 100%);
+    -webkit-box-shadow: inset 0px 0px 8px 0px $$ACCENT_COLOR$$;
+    -moz-box-shadow: inset 0px 0px 8px 0px $$ACCENT_COLOR$$;
+    box-shadow: inset 0px 0px 8px 0px $$ACCENT_COLOR$$;
+    transition: color, outline 0.2s;
+    outline: 2px solid #2d2a2e;
+    font-weight: bold;
+    margin: 20px;
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.btn-yell:hover {
+    outline: 2px solid $$ACCENT_COLOR$$;
+    outline-offset: 2px;
+    -webkit-box-shadow: inset 0px 0px 16px 0px $$ACCENT_COLOR$$;
+    -moz-box-shadow: inset 0px 0px 16px 0px $$ACCENT_COLOR$$;
+    box-shadow: inset 0px 0px 16px 0px $$ACCENT_COLOR$$;
+}
+
+.btn-yell:active {
+    outline: 2px solid $$ACCENT_COLOR$$;
+    outline-offset: 2px;
+    background: linear-gradient(180deg, $$ACCENT_COLOR$$ 0%, #4579b1 5%, rgba(0, 0, 12, 1) 100%);
+}
+
+input[type="text"],
+input[type="password"] {
+    background-color: #2d2a2e;
+    border: 2px solid $$ACCENT_COLOR$$ !important;
+    color: $$ACCENT_COLOR$$;
+    transition: all 0.2s;
+    outline: none;
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    background-color: $$ACCENT_COLOR$$;
+    border: 2px solid $$ACCENT_COLOR$$ !important;
+    color: #2d2a2e;
+    transition: all 0.2s;
+    outline: none;
+    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.stupidity-warning-wrapper {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.stupidity-warning {
+    background-color: #2d2a2e;
+    text-align: center;
+    -webkit-box-shadow: 0px 0px 24px 6px $$ACCENT_COLOR$$;
+    box-shadow: 0px 0px 24px 6px $$ACCENT_COLOR$$;
+    width: 90%;
+    margin: auto;
+}
+
+.typewrite {
+    overflow: hidden;
+    /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid #00000000;
+    /* The typwriter cursor */
+    white-space: nowrap;
+    /* Keeps the content on a single line */
+    animation: typing 1.5s steps(40, end)
+}
+
+.fade {
+    animation: fading 0.6s steps(40, end);
+}
+
+
+/* The typing effect */
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%
+    }
+}
+
+@keyframes fading {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.divider-container {
+    align-items: center;
+    width: 100%;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.divider {
+    margin: auto;
+    width: 0%;
+    background-color: $$ACCENT_COLOR$$;
+    height: 2px;
+}
+
+.divider-loaded {
+    margin: auto;
+    width: 100%;
+    background-color: ;
+    height: 2px;
+    transition: width 1s;
+}
+
+.quote {
+    font-family: JetBrainsMonoR, monospace;
+}

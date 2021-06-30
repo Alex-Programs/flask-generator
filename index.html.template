@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" rel="preload" content="width=device-width" />
+
+    <title>$$TITLE$$</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <script src="/assets/main.js"></script>
+    $$FANCY_JS_IMPORT$$
+</head>
+<header>
+</header>
+
+<body>
+<h2>This is a auto generated website using my own tool</h2>
+<p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam autem architecto facilis dolor eius rerum, quae molestiae eos beatae vel commodi quam rem eveniet nulla sunt quasi necessitatibus ducimus ab sequi. Delectus id magni aspernatur eum, consequatur voluptas placeat similique. Voluptatum obcaecati nobis praesentium minus quisquam laboriosam repellendus sequi, harum accusantium provident ea perferendis tempore placeat quibusdam asperiores numquam laudantium officiis. Repudiandae cum ex obcaecati, et praesentium, corporis, ipsum est eius incidunt quas doloribus rerum dicta. Sequi beatae accusamus reprehenderit vel quia porro tempora asperiores suscipit ea libero quibusdam, tenetur mollitia dicta. Atque, sequi et fuga animi placeat vel ea?
+</p>
+</body>
+</html>
