@@ -146,10 +146,10 @@ def create_in_folder(dstpath, srcpath, args):
 
     def replace_contents(args, contents):
         for key, value in args.items():
-            contents.replace("{{" + key.lower() + "}}", value)
-            contents.replace("{{ " + key.lower() + " }}", value)
-            contents.replace("{{" + key.upper() + "}}", value)
-            contents.replace("{{ " + key.upper() + " }}", value)
+            contents = contents.replace("{{" + key.lower() + "}}", value)
+            contents = contents.replace("{{ " + key.lower() + " }}", value)
+            contents = contents.replace("{{" + key.upper() + "}}", value)
+            contents = contents.replace("{{ " + key.upper() + " }}", value)
 
         return contents
 
