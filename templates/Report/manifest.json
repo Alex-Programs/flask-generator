@@ -1,0 +1,26 @@
+{
+  "name": "Report",
+  "description": "Basic, one-page report. Comes with JetBrains Mono, pm2 script, and scroll effects.",
+  "args": [
+    {
+      "type": "color",
+      "key": "primary-color",
+      "question": "What would you like the primary colour to be?"
+    },
+    {
+      "type": "color",
+      "key": "background-color",
+      "question": "What would you like the background colour to be?"
+    },
+    {
+      "type": "string",
+      "key": "title",
+      "question": "What would you like the title to be?"
+    },
+    {
+      "type": "port",
+      "key": "port",
+      "question": "What port would you like to run the server on?"
+    }
+  ]
+}

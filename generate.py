@@ -1,172 +1,177 @@
 print("Importing modules")
-from enum import Enum
-from dataclasses import dataclass
-import re
 import os
+import json
+from pathlib import Path
+import shutil
+
 print("Import complete")
 
-class ValidationResponse(Enum):
-    FAILURE = 0
-    SUCCESS = 1
-
-@dataclass
-class Configuration():
-    path: str
-    port: int
-    color: str
-    fancyJS: bool
-    title: str
-
-    def display(self):
-        print("Path: ".rjust(25) + self.path)
-        print("Port: ".rjust(25) + str(self.port))
-        print("Colour: ".rjust(25) + self.color)
-        print("Include Fancy JS: ".rjust(25) + str(self.fancyJS))
-        print("Title: ".rjust(25) + self.title)
-
-        print("----------------------------------------------------")
-
-def query_validate(text, validate_function):
-    print(text)
-
-    while True:
-        inp = input("> ")
-        validationResponse, output = validate_function(inp)
-
-        if validationResponse == ValidationResponse.SUCCESS:
-            return output
-        
-        else:
-            print("Invalid input.")
-
-def path_validate(path):
-    try:
-        allowedDriveNames = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-
-        if path[0] == "/" or path[0] in allowedDriveNames:
-            if path[-1] != "/":
-                path = path + "/"
-
-            return ValidationResponse.SUCCESS, path
-
-    except:
-        return ValidationResponse.FAILURE, None
-
-    return ValidationResponse.FAILURE, None
-
-def port_validate(port):
-    try:
-        if int(port) > 0 and int(port) < 65537:
-            return ValidationResponse.SUCCESS, int(port)
-            
-    except:
-        return ValidationResponse.FAILURE, False
-
-    return ValidationResponse.FAILURE, False
-
-def bool_validate(inp):
-    try:
-        yesPhrases = ["1", "y", "ok", "true"]
-        noPhrases = ["0", "n", "false"]
-
-        inp = inp.lower()
-
-        for phrase in yesPhrases:
-            if phrase in inp:
-                return ValidationResponse.SUCCESS, True
-
-        for phrase in noPhrases:
-            if phrase in inp:
-                return ValidationResponse.SUCCESS, False
-    except:
-        return ValidationResponse.FAILURE, None
-
-    return ValidationResponse.FAILURE, None
-
-def color_validate(hex_code):
-    try:
-        match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', hex_code)
-
-        if match:
-            return ValidationResponse.SUCCESS, hex_code
-    except:
-        return ValidationResponse.FAILURE, None
-
-    return ValidationResponse.FAILURE, None
-
-def title_validate(title):
-    return ValidationResponse.SUCCESS, title
-
-def get_initial_input():
-    path = query_validate("Please enter the _absolute_ path.", path_validate)
-
-    port = query_validate("Please enter the initial port.", port_validate)
-
-    color = query_validate("Enter the hex code for the theme colour", color_validate)
-
-    doFancyJS = query_validate("Automatically include fancy JS?", bool_validate)
-
-    title = query_validate("Please enter the title of the project.", title_validate)
-
-    return Configuration(path, port, color, doFancyJS, title)
-
-def create_or_reuse_directory(path):
-    if not os.path.isdir(path):
-        print(f"Directory {path} not found. Automatically generating...")
-        os.makedirs(path)
-
-    else:
-        print(f"Directory {path} already exists! Not creating a new one.")
-
-def create_from_template(filename, placeIn, **kwargs):
-    print(f"Processing {filename}.template destined for {placeIn} with replacement: {str(kwargs)}")
-
-    with open(filename + ".template", "r") as f:
-        sourceText = f.read()
-
-        for key, value in kwargs.items():
-            key = f"$${key}$$"
-            sourceText = sourceText.replace(key, value)
-            print(f"Replacing {key} with {value} in {filename} destined for {placeIn}")
-
-        with open(placeIn, "w") as f:
-            f.write(sourceText)
-
-def generate(config):
-    create_or_reuse_directory(config.path)
-
-    create_or_reuse_directory(config.path + "templates")
-    create_or_reuse_directory(config.path + "assets")
-
-    if config.fancyJS:
-        fancyJS = "<script src=\"/assets/fancy.js\"></script>"
-    else:
-        fancyJS = "<!--Fancy JS could have gone here, but was not added because of user configuration. -->"
-
-    create_from_template("index.html", config.path + "templates/index.html", FANCY_JS_IMPORT=fancyJS, TITLE=config.title)
-    create_from_template("main.js", config.path + "assets/main.js")
-    
-    if config.fancyJS:
-        create_from_template("fancy.js", config.path + "assets/fancy.js")
-
-    create_from_template("styles.css", config.path + "assets/styles.css", ACCENT_COLOR=config.color)
-
-    create_from_template("main.py", config.path + "main.py", PORT=str(config.port))
-
-    print("\n----------------------------------------------------\n")
-    print("Generation complete. Have a nice day.")
 
 def main():
-    initInp = get_initial_input()
-    #for debug purposes
-    #initInp = Configuration("C:/Users/alexc/Documents/GitHub/flask-generator/test_project/", 500, "#ce0000", True, "Test Project")
+    print("Finding information from manifests")
+    # Find all the manifests, parse, present options, then implement
+    manifests = []
+    for possiblefolder in os.listdir(os.getcwd() + "/templates/"):
+        folderPath = os.getcwd() + "/templates/" + possiblefolder
+        if os.path.isdir(folderPath):
+            if os.path.isfile(folderPath + "/manifest.json"):
+                with open(folderPath + "/manifest.json") as manifestfile:
+                    manifests.append(json.loads(manifestfile.read()))
 
-    initInp.display()
+    print("Manifest information found")
+    print("------------------------")
+    # Present options
+    for manifest in manifests:
+        print("Name:           " + manifest["name"])
+        print("Description:    " + manifest["description"])
+        print("------------------------")
 
-    print("If you are unhappy with this configuration, re run the tool now. If you are happy with this configuration, click enter to begin setup process.")
-    input("> ")
+    while True:
+        # Get input
+        print("Which would you like to use? ")
+        resp = input("> ")
 
-    generate(initInp)
+        if resp in [manifest["name"] for manifest in manifests]:
+            print("Using " + resp)
+            break
+        else:
+            print("Invalid input")
+
+    # Ask for details
+    # side note, I love this syntax
+    manifest = [manifest for manifest in manifests if manifest["name"] == resp][0]
+    args = {}
+
+    validArgTypes = ["string", "int", "float", "bool", "port", "color"]
+
+    for arg in manifest["args"]:
+        if arg["type"] not in validArgTypes:
+            print("Invalid arg type for " + str(arg))
+
+    for arg in manifest["args"]:
+        while True:
+            print(arg["question"])
+            print("(Type: " + arg["type"] + ")")
+            resp = input("> ")
+            if arg["type"] == "string":
+                args[arg["key"]] = resp
+                break
+
+            elif arg["type"] == "int":
+                try:
+                    args[arg["key"]] = int(resp)
+                    break
+                except ValueError:
+                    print("Invalid input")
+                    continue
+
+            elif arg["type"] == "float":
+                try:
+                    args[arg["key"]] = float(resp)
+                    break
+                except ValueError:
+                    print("Invalid input")
+                    continue
+
+            elif arg["type"] == "bool":
+                if resp.upper() in ["TRUE", "YES", "Y", "1"]:
+                    args[arg["key"]] = True
+                    break
+                elif resp.upper() in ["FALSE", "NO", "N", "0"]:
+                    args[arg["key"]] = False
+                    break
+                else:
+                    print("Invalid input")
+                    continue
+
+            elif arg["type"] == "port":
+                try:
+                    int(resp)
+                    if int(resp) > 65536 or int(resp) < 1024:
+                        print("Invalid port - ports should be between 1024-65536 inclusive")
+
+                    args[arg["key"]] = resp
+                    break
+
+                except ValueError:
+                    print("Input isn't an int, let alone a valid port")
+                    continue
+
+            elif arg["type"] == "color":
+                # validate that the arg["type"] is a valid html colour. Allow text like 'red' as well as rgb() and hex
+                if resp.startswith("#") and len(resp) == 7:
+                    args[arg["key"]] = resp
+                    break
+
+                elif resp.startswith("rgb("):
+                    if resp.endswith(")"):
+                        args[arg["key"]] = resp
+                        break
+
+                elif resp.lower() in ["red", "green", "blue", "yellow", "orange", "purple", "pink", "cyan", "white",
+                                      "black"]:
+                    args[arg["key"]] = resp
+                    break
+
+                else:
+                    print("Invalid input")
+                    continue
+
+    # now create from template
+    # first, request path
+    print("Where would you like to create the project? ")
+    dstpath = input("> ").strip()
+    if not os.path.isdir(dstpath):
+        try:
+            os.mkdir(dstpath)
+        except FileNotFoundError:
+            segments = Path(dstpath).parts
+            sofar = ""
+            for segment in segments:
+                try:
+                    os.mkdir(sofar + segment)
+                except FileExistsError:
+                    pass
+
+                sofar += segment + "/"
+
+        except FileExistsError:
+            pass
+
+    create_in_folder(dstpath, os.getcwd() + "/templates/" + manifest["name"], args)
+
+
+def create_in_folder(dstpath, srcpath, args):
+    print("Beginning creation")
+
+    def replace_contents(args, contents):
+        for key, value in args.items():
+            contents.replace("{{" + key.lower() + "}}", value)
+            contents.replace("{{ " + key.lower() + " }}", value)
+            contents.replace("{{" + key.upper() + "}}", value)
+            contents.replace("{{ " + key.upper() + " }}", value)
+
+        return contents
+
+    # copy over to dst folder
+    shutil.copytree(srcpath, dstpath)
+    # iterate over dst folder
+    for root, dirs, files in os.walk(dstpath):
+        for file in files:
+            filepath = root + "/" + file
+            print("Processing " + filepath)
+
+            with open(filepath, "r") as f:
+                contents = f.read()
+
+                contents = replace_contents(args, contents)
+
+            with open(filepath, "w") as f:
+                f.write(contents)
+
+            print("Done!")
+
+create_in_folder("/home/user/programming/flask-generator/created/test", "/home/user/programming/flask-generator/templates/Testing", {"port": "5000"})
 
 if __name__ == "__main__":
     main()
