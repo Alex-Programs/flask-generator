@@ -109,7 +109,7 @@ def main():
                         break
 
                 elif resp.lower() in ["red", "green", "blue", "yellow", "orange", "purple", "pink", "cyan", "white",
-                                      "black"]:
+                                      "black", "grey"]:
                     args[arg["key"]] = resp
                     break
 
@@ -121,6 +121,10 @@ def main():
     # first, request path
     print("Where would you like to create the project? ")
     dstpath = input("> ").strip()
+    """
+    
+    Not needed, as the shutil copies it
+    
     if not os.path.isdir(dstpath):
         try:
             os.mkdir(dstpath)
@@ -137,6 +141,8 @@ def main():
 
         except FileExistsError:
             pass
+            
+    """
 
     create_in_folder(dstpath, os.getcwd() + "/templates/" + manifest["name"], args)
 
@@ -150,6 +156,8 @@ def create_in_folder(dstpath, srcpath, args):
             contents = contents.replace("{{ " + key.lower() + " }}", value)
             contents = contents.replace("{{" + key.upper() + "}}", value)
             contents = contents.replace("{{ " + key.upper() + " }}", value)
+            contents = contents.replace("$" + key.upper(), value)
+            contents = contents.replace("$" + key.lower(), value)
 
         return contents
 
@@ -171,7 +179,13 @@ def create_in_folder(dstpath, srcpath, args):
 
             print("Done!")
 
-create_in_folder("/home/user/programming/flask-generator/created/test", "/home/user/programming/flask-generator/templates/Testing", {"port": "5000"})
+    print("Would you like to run it?")
+    resp = input("> ").strip()
+    if resp.upper() in ["YES", "Y", "TRUE"]:
+        print("Running start.sh...")
+        os.system("cd " + dstpath + " && chmod +x ./start.sh && ./start.sh")
+
+#create_in_folder("/home/user/programming/flask-generator/thing", "/home/user/programming/flask-generator/templates/Report", {"port": "8091", "title": "Testing", "primary-color": "orange", "background-color": "black", "text-color": "white"})
 
 if __name__ == "__main__":
     main()

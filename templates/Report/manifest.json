@@ -1,6 +1,6 @@
 {
   "name": "Report",
-  "description": "Basic, one-page report. Comes with JetBrains Mono, pm2 script, and scroll effects.",
+  "description": "Basic, one-page report. Comes with JetBrains Mono and pm2 script.",
   "args": [
     {
       "type": "color",
@@ -11,6 +11,11 @@
       "type": "color",
       "key": "background-color",
       "question": "What would you like the background colour to be?"
+    },
+    {
+      "type": "color",
+      "key": "text-color",
+      "question": "What would you like the text colour to be?"
     },
     {
       "type": "string",

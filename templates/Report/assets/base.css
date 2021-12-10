@@ -1,0 +1,40 @@
+body {
+    max-width: 800px;
+    padding: 20px;
+
+    margin: auto;
+}
+
+html {
+    background-color: $background-color;
+
+    color: $text-color;
+
+    font-family: "JetBrains Mono", monospace;
+}
+
+.text-cent {
+    text-align: center;
+}
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color $background-color;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 2px;
+    border: 0px solid $background-color;
+  }
